@@ -45,8 +45,10 @@ public:
     ~libsvm() {
         svm_destroy_param(param);
         svm_free_model_content(&model);
-        free(trainVec);
-        free(testVec);
+        for (std::vector<Instance*>::iterator it = trainVec.begin(); it != trainVec.end(); ++it)
+            delete (*it);
+        for (std::vector<Instance*>::iterator it = testVec.begin(); it != testVec.end(); ++it)
+            delete (*it);
     };
     void prepare();
     void addTrainSeq(std::vector<int>, int);
