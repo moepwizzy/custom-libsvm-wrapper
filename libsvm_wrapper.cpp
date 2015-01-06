@@ -1,31 +1,50 @@
+#include <math.h>
+
 #include "libsvm_wrapper.h"
 
-bool libsvm::prepare() {
+bool libsvm::prepare() {      
     problem->l = trainVec.size();
     problem->y = new double [trainVec.size()];
     problem->x = new svm_node* [trainVec.size()];
     for (unsigned int i = 0; i < trainVec.size(); ++i) {
-        problem->y[i] = (double) trainVec.at(i)->label;
-        for (unsigned int j = 0; j < trainVec.at(i)->vec.size(); ++j) {
-            problem->x[i][j].index = j;
-            problem->x[i][j].value = trainVec.at(i)->vec.at(j);
+        problem->y[i] = (double) trainVec.at(i)->label == POS ? 1 : -1;
+        problem->x[i] = new svm_node[trainVec.at(i)->nonZeroEntries+1];
+        int nodeNumber = 0;
+        for (int j = 0; j < trainVec.at(i)->nonZeroEntries; ++j) {
+            if (trainVec.at(i)->vec.at(j) != 0) {
+                problem->x[i][nodeNumber].index = j;
+                problem->x[i][nodeNumber++].value = trainVec.at(i)->vec.at(j);
+            }
         }
+        problem->x[i][nodeNumber].index = -1;
+    }
+    finalTestVec = new svm_node* [testVec.size()];
+    for (unsigned int i = 0; i < testVec.size(); ++i) {
+        finalTestVec[i] = new svm_node[testVec.at(i)->nonZeroEntries+1];
+        int nodeNumber = 0;
+        for (int j = 0; j < testVec.at(i)->nonZeroEntries; ++j) {
+            if (testVec.at(i)->vec.at(j) != 0) {
+                finalTestVec[i][nodeNumber].index = j;
+                finalTestVec[i][nodeNumber++].value = testVec.at(i)->vec.at(j);
+            }
+        }
+        finalTestVec[i][nodeNumber].index = -1;
     }
     prepared = true;
     return generateParam();
 }
 
-bool libsvm::addTrainSeq(std::vector<int> vec, int label) {
+bool libsvm::addTrainSeq(std::vector<int> vec, label_t lab) {
     if (prepared)
         return false;
-    trainVec.push_back(new Instance(vec,label));
+    trainVec.push_back(new Instance(vec,lab));
     return true;
 }
 
-bool libsvm::addTestSeq(std::vector<int> vec) {
+bool libsvm::addTestSeq(std::vector<int> vec, label_t lab) {
     if (prepared)
         return false;
-    testVec.push_back(new Instance(vec));
+    testVec.push_back(new Instance(vec,lab));
     return true;
 }
 
@@ -50,7 +69,7 @@ bool libsvm::generateParam() {
 double* libsvm::getWeights () {
     double* weights = new double[2];
     for (std::vector<Instance*>::iterator it = trainVec.begin(); it != trainVec.end(); ++it)
-        (*it)->label == -1 ? weights[0]++ : weights[1]++;
+        (*it)->label == NEG ? weights[0]++ : weights[1]++;
     return weights;
 }
 
@@ -65,5 +84,21 @@ bool libsvm::train() {
 }
 
 double libsvm::evaluate() {
-    
+    double AUC;
+    std::vector<double> pos;
+    std::vector<double> neg;
+    for (unsigned int i = 0; i < testVec.size(); ++i) {
+        double estimates [2];
+        svm_predict_probability(model, finalTestVec[i],estimates);
+        if (testVec.at(i)->label == NEG)
+            neg.push_back(estimates[1]);
+        else
+            pos.push_back(estimates[1]);
+    }
+    int sum = 0;
+    for (std::vector<double>::iterator posIt = pos.begin(); posIt != pos.end(); ++posIt)
+        for (std::vector<double>::iterator negIt = neg.begin(); negIt != neg.end(); ++negIt)
+            sum = sum + *posIt > *negIt ? 1 : 0;
+    AUC = (double)sum/(double)(pos.size()*neg.size());
+    return AUC;
 }

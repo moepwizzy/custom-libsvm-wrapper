@@ -6,11 +6,25 @@
 #include <cstdlib>
 void do_nothing(const char *s) {};
 
+enum label_t {
+    POS,
+    NEG
+};
+
 struct Instance {
     std::vector<int> vec;
-    int label;
-    Instance(std::vector<int> v) : vec(v) {};
-    Instance(std::vector<int> v, int lab) : vec(v), label(lab) {};
+    label_t label;
+    int nonZeroEntries;
+    Instance(std::vector<int> v) : vec(v) {
+        nonZeroEntries = 0;
+        for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+            nonZeroEntries = *it == 0 ? nonZeroEntries : nonZeroEntries + 1;
+    };
+    Instance(std::vector<int> v, label_t lab) : vec(v), label(lab) {
+        nonZeroEntries = 0;
+        for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+            nonZeroEntries = *it == 0 ? nonZeroEntries : nonZeroEntries + 1;
+    };
 };
 
 class libsvm {
@@ -24,6 +38,7 @@ class libsvm {
     double* getWeights();
     std::vector<Instance*> trainVec;
     std::vector<Instance*> testVec;
+    svm_node** finalTestVec;
 public:
     libsvm(svm_model* mod) : model(mod) {
         svm_set_print_string_function(&do_nothing);
@@ -59,11 +74,10 @@ public:
     };
     svm_parameter* getParameter() {return param;};
     bool prepare();
-    bool addTrainSeq(std::vector<int>, int);
-    bool addTestSeq(std::vector<int>);
+    bool addTrainSeq(std::vector<int>, label_t);
+    bool addTestSeq(std::vector<int>, label_t);
     bool train();
     double evaluate();
-    double getAUC();
 };
 
 #endif
