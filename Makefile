@@ -3,14 +3,12 @@ CC=g++
 AR=ar
 # options I'll pass to the compiler.
 CFLAGS=-c -Wall
-LIBFLAGS= -L. -llibsvm_wrapper# --verbose
+LIBFLAGS= -L. -llibsvm_wrapper
 ARFLAGS=crf
 
-all: test
+all: liblibsvm_wrapper.a
 
-lib: libsvm_wrapper.a
-
-libsvm_wrapper.a: libsvm_wrapper.o svm.o
+liblibsvm_wrapper.a: libsvm_wrapper.o svm.o
 	$(AR) $(ARFLAGS) liblibsvm_wrapper.a libsvm_wrapper.o svm.o
 	
 libsvm_wrapper.o: libsvm_wrapper.cpp libsvm_wrapper.h
@@ -19,7 +17,7 @@ libsvm_wrapper.o: libsvm_wrapper.cpp libsvm_wrapper.h
 svm.o: svm.cpp svm.h
 	$(CC) $(CFLAGS) svm.cpp
 
-test: lib test.cpp
+test: liblibsvm_wrapper.a test.cpp
 	$(CC) $(CFLAGS) -std=c++11 test.cpp
 	$(CC) test.o $(LIBFLAGS) -o test
 
