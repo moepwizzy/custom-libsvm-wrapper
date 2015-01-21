@@ -2167,7 +2167,7 @@ svm_model *svm_train(const svm_problem *prob, const svm_parameter *param)
 		{	
 			int j;
 			for(j=0;j<nr_class;j++) {
-        fprintf(stderr,"moep %d moep",label[j]);
+        fprintf(stderr,"moep %d moep\n",label[j]);
 				if(param->weight_label[i] == label[j])
 					break; 
       }
