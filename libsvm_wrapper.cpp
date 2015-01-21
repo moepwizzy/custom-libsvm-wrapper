@@ -55,6 +55,7 @@ bool libsvm::generateParam() {
     }
     param->svm_type = C_SVC;
     param->kernel_type = LINEAR;
+    param->degree = 0;
     param->cache_size = 1024;
     param->C = 1;
     param->eps = 0.001;
@@ -113,6 +114,7 @@ void libsvm::print_param() {
     std::cout<<"printing parameter info"<<
    std::endl<<"param:type\t"<<param->svm_type<<
    std::endl<<"param:kernel\t"<<param->kernel_type<<
+   std::endl<<"param:degree\t"<<param->degree<<
    std::endl<<"param:cache\t"<<param->cache_size<<
    std::endl<<"param:C\t"<<param->C<<
    std::endl<<"param:eps\t"<<param->eps<<
