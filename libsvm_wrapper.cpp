@@ -85,7 +85,8 @@ bool libsvm::train() {
         std::cout<<str<<std::endl;
         std::cout<<
           param->kernel_type<<std::endl<<
-          param->svm_type<<std::endl;
+          param->svm_type<<std::endl<<
+          param->weight[0]<<std::endl;
         return false;
     }
     model = svm_train(problem,param);
