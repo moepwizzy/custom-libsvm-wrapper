@@ -112,3 +112,16 @@ double libsvm::evaluate() {
             sum += *posIt > *negIt ? 1 : 0;
     return (double)sum/(double)(pos.size()*neg.size());
 }
+
+void libsvm::print_param() {
+    std::cout<<
+   std::endl<<"param:type"<<param->svm_type<<
+   std::endl<<"param:kernel"<<param->kernel_type<<
+   std::endl<<"param:cache"<<param->cache_size<<
+   std::endl<<"param:C"<<param->C<<
+   std::endl<<"param:eps"<<param->eps<<
+   std::endl<<"param:weight0"<<param->weight_label[0]<<
+   std::endl<<"param:weight1 "<<param->weight_label[1]<<
+   std::endl<<"param:prob"<<param->probability<<
+   std::endl<<"param:shrink"<<param->shrinking<<std::endl;
+}
