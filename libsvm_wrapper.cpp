@@ -99,9 +99,10 @@ double libsvm::evaluate() {
     for (unsigned int i = 0; i < testVec.size(); ++i) {
         double estimates [2];
         svm_predict_probability(model, finalTestVec[i],estimates);
-        if (testVec.at(i)->label == NEG) {
+          std::cout<<estimates[0]<<std::endl;
+        if (testVec.at(i)->label == NEG)
             neg.push_back(estimates[0]);
-        } else
+        else
             pos.push_back(estimates[0]);
     }
     int sum = 0;
