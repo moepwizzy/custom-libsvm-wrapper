@@ -82,6 +82,9 @@ bool libsvm::train() {
     const char* str = svm_check_parameter(problem,param);
     if (str != NULL) {
         std::cout<<str<<std::endl;
+        std::cout<<
+          param->kernel_type<<std::endl<<
+          param->svm_type<<std::endl;
         return false;
     }
     model = svm_train(problem,param);
