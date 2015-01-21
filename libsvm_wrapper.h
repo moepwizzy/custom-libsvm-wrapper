@@ -8,8 +8,8 @@
 
 
 enum label_t {
-    POS,
-    NEG
+    POS = 1,
+    NEG = -1
 };
 
 struct Instance {
