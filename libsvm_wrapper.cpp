@@ -61,8 +61,8 @@ bool libsvm::generateParam() {
     param->eps = 0.001;
     param->nr_weight = 2;
     param->weight_label = new int[2];
-    param->weight_label[0] = (double) NEG;
-    param->weight_label[1] = (double) POS;
+    param->weight_label[0] = NEG;
+    param->weight_label[1] = POS;
     param->weight = getWeights();
     param->probability = 1;
     param->shrinking = 0;
