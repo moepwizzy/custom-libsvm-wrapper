@@ -64,6 +64,7 @@ bool libsvm::generateParam() {
     param->weight_label[1] = 1;
     param->weight = getWeights();
     param->probability = 1;
+    param->shrinking = 0;
     return canBeTrained = true;
 }
 
@@ -88,8 +89,7 @@ bool libsvm::train() {
         return false;
     }
     model = svm_train(problem,param);
-    trained = true;
-    return true;
+    return trained = true;
 }
 
 double libsvm::evaluate() {

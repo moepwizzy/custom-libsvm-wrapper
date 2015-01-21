@@ -23,6 +23,5 @@ test: liblibsvm_wrapper.a test.cpp
 
 .PHONY: clean
 clean:
-	rm -rf *.o
-	rm -f libsvm_wrapper.a
+	rm -rf *.[oa]
 	rm -f test
