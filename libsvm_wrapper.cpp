@@ -49,8 +49,10 @@ bool libsvm::addTestSeq(std::vector<double> *vec, label_t lab) {
 }
 
 bool libsvm::generateParam() {
-    if (!prepared)
+    if (!prepared) {
+        std::cout<<"generateParam(): prepared==false"<<std::endl;
         return false;
+    }
     param->svm_type = C_SVC;
     param->kernel_type = LINEAR;
     param->cache_size = 1024;
@@ -79,7 +81,7 @@ bool libsvm::train() {
     }
     const char* str = svm_check_parameter(problem,param);
     if (str != NULL) {
-        std::cout<<"param check unsuccessful"<<std::endl;
+        std::cout<<str<<std::endl;
         return false;
     }
     model = svm_train(problem,param);
