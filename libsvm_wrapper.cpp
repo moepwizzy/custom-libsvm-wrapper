@@ -84,7 +84,7 @@ bool libsvm::train() {
     if (str != NULL) {
         std::cout<<str<<std::endl;
         std::cout<<
-          param->kernel_type<<std::endl<<
+          (param->kernel_type == LINEAR ? "lin" : "not lin")<<std::endl<<
           param->svm_type<<std::endl<<
           param->weight[0]<<std::endl;
         return false;
