@@ -7,7 +7,7 @@ bool libsvm::prepare() {
     problem->y = new double [trainVec.size()];
     problem->x = new svm_node* [trainVec.size()];
     for (unsigned int i = 0; i < trainVec.size(); ++i) {
-        problem->y[i] = (double) trainVec.at(i)->label == POS ? 1 : -1;
+        problem->y[i] = (double) trainVec.at(i)->label;
         problem->x[i] = new svm_node[trainVec.at(i)->nonZeroEntries+1];
         int nodeNumber = 0;
         for (int j = 0; j < trainVec.at(i)->nonZeroEntries; ++j) {
