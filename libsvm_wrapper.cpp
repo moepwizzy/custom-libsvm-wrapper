@@ -82,11 +82,8 @@ bool libsvm::train() {
     }
     const char* str = svm_check_parameter(problem,param);
     if (str != NULL) {
+        print_param();
         std::cout<<str<<std::endl;
-        std::cout<<
-          (param->kernel_type == LINEAR ? "lin" : "not lin")<<std::endl<<
-          param->svm_type<<std::endl<<
-          param->weight[0]<<std::endl;
         return false;
     }
     model = svm_train(problem,param);
@@ -96,7 +93,6 @@ bool libsvm::train() {
 double libsvm::evaluate() {
     std::vector<double> pos;
     std::vector<double> neg;
-    std::cout<<testVec.size()<<std::endl;
     for (unsigned int i = 0; i < testVec.size(); ++i) {
         double estimates [2];
         svm_predict_probability(model, finalTestVec[i],estimates);
@@ -114,14 +110,14 @@ double libsvm::evaluate() {
 }
 
 void libsvm::print_param() {
-    std::cout<<
-   std::endl<<"param:type"<<param->svm_type<<
-   std::endl<<"param:kernel"<<param->kernel_type<<
-   std::endl<<"param:cache"<<param->cache_size<<
-   std::endl<<"param:C"<<param->C<<
-   std::endl<<"param:eps"<<param->eps<<
-   std::endl<<"param:weight0"<<param->weight_label[0]<<
-   std::endl<<"param:weight1 "<<param->weight_label[1]<<
-   std::endl<<"param:prob"<<param->probability<<
-   std::endl<<"param:shrink"<<param->shrinking<<std::endl;
+    std::cout<<"printing parameter info"<<
+   std::endl<<"param:type\t"<<param->svm_type<<
+   std::endl<<"param:kernel\t"<<param->kernel_type<<
+   std::endl<<"param:cache\t"<<param->cache_size<<
+   std::endl<<"param:C\t"<<param->C<<
+   std::endl<<"param:eps\t"<<param->eps<<
+   std::endl<<"param:weight0\t"<<param->weight_label[0]<<
+   std::endl<<"param:weight1\t"<<param->weight_label[1]<<
+   std::endl<<"param:prob\t"<<param->probability<<
+   std::endl<<"param:shrink\t"<<param->shrinking<<std::endl;
 }
