@@ -2166,11 +2166,9 @@ svm_model *svm_train(const svm_problem *prob, const svm_parameter *param)
 		for(i=0;i<param->nr_weight;i++)
 		{	
 			int j;
-			for(j=0;j<nr_class;j++) {
-        fprintf(stderr,"label[%d] = %d\n",j,label[j]);
+			for(j=0;j<nr_class;j++)
 				if(param->weight_label[i] == label[j])
 					break; 
-      }
 			if(j == nr_class)
 				fprintf(stderr,"WARNING: class label %d specified in weight is not found\n", param->weight_label[i]);
 			else
