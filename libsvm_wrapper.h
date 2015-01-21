@@ -28,7 +28,7 @@ struct Instance {
     };
 };
 
-inline void do_nothing(const char *s) {};
+void do_nothing(const char *s) {};
 
 class libsvm {
     svm_model* model;
