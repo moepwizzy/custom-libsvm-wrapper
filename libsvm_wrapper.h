@@ -45,8 +45,8 @@ class libsvm {
     svm_node** finalTestVec;
 public:
     libsvm(){
-        param = new svm_parameter;
-        problem = new svm_problem;
+        param = new svm_parameter();
+        problem = new svm_problem();
         svm_set_print_string_function(&do_nothing);
         canBeTested = false;
         canBeTrained = false;
