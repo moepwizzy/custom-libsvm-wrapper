@@ -96,6 +96,7 @@ bool libsvm::train() {
 double libsvm::evaluate() {
     std::vector<double> pos;
     std::vector<double> neg;
+    std::cout<<testVec.size()<<std::endl;
     for (unsigned int i = 0; i < testVec.size(); ++i) {
         double estimates [2];
         svm_predict_probability(model, finalTestVec[i],estimates);
