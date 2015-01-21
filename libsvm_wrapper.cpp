@@ -73,11 +73,15 @@ double* libsvm::getWeights () {
 }
 
 bool libsvm::train() {
-    if (!canBeTrained)
+    if (!canBeTrained) {
+        std::cout<<"canBeTrained == false"<<std::endl;
         return false;
+    }
     const char* str = svm_check_parameter(problem,param);
-    if (str != NULL)
+    if (str != NULL) {
+        std::cout<<"param check unsuccessful"<<std::endl;
         return false;
+    }
     model = svm_train(problem,param);
     trained = true;
     return true;
