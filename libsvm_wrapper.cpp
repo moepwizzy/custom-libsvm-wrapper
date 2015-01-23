@@ -2,6 +2,12 @@
 
 #include "libsvm_wrapper.h"
 
+void libsvm::normalize() {
+  for (vec_i_it_t i_it = trainVec.begin(); i_it != trainVec.end(); ++i_it)
+    for (vec_d_it_t v_it = (*i_it)->vec->begin(); v_it != (*i_it)->vec->end(); ++v_it)
+      (*v_it) /= (*i_it)->length;
+}
+
 bool libsvm::prepare() {      
   problem->l = trainVec.size();
   problem->y = new double [trainVec.size()];

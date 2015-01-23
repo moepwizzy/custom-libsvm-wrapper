@@ -18,15 +18,21 @@ struct Instance {
   std::vector<double> *vec;
   label_t label;
   int nonZeroEntries;
+  int length;
   Instance(std::vector<double> *v) : vec(v) {
     nonZeroEntries = 0;
-    for (vec_d_it_t it = v->begin(); it != v->end(); ++it)
-        nonZeroEntries = *it == 0 ? nonZeroEntries : nonZeroEntries + 1;
+    length = 0;
+    for (vec_d_it_t it = v->begin(); it != v->end(); ++it) {
+      nonZeroEntries = *it == 0 ? nonZeroEntries : nonZeroEntries + 1;
+      length += *it * *it;
+    }
   };
   Instance(std::vector<double> *v, label_t lab) : vec(v), label(lab) {
     nonZeroEntries = 0;
-    for (vec_d_it_t it = v->begin(); it != v->end(); ++it)
+    for (vec_d_it_t it = v->begin(); it != v->end(); ++it) {
       nonZeroEntries = *it == 0 ? nonZeroEntries : nonZeroEntries + 1;
+      length += *it * *it;
+    }
   };
 };
 
@@ -68,6 +74,7 @@ class libsvm {
         delete *it;
   };
   svm_parameter* getParameter() {return param;};
+  void normalize();
   bool prepare();
   bool addTrainSeq(std::vector<double>*, label_t);
   bool addTestSeq(std::vector<double>*, label_t);
