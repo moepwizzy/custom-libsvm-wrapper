@@ -18,7 +18,7 @@ struct Instance {
   std::vector<double> *vec;
   label_t label;
   int nonZeroEntries;
-  int length;
+  double length;
   Instance(std::vector<double> *v) : vec(v) {
     nonZeroEntries = 0;
     length = 0;
