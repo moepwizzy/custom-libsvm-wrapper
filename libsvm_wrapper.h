@@ -74,7 +74,6 @@ class libsvm {
         delete *it;
   };
   svm_parameter* getParameter() {return param;};
-  void normalize();
   bool prepare();
   bool addTrainSeq(std::vector<double>*, label_t);
   bool addTestSeq(std::vector<double>*, label_t);
