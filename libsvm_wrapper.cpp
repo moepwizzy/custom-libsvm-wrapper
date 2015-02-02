@@ -39,7 +39,7 @@ void libsvm::print_prepared_vectors() {
       std::cout<<problem->x[i][counter++].value<<"\t";
     std::cout<<std::endl<<std::endl;
   }
-  for (int i = 0; i < testVec.size(); ++i) {
+  for (std::size_t i = 0; i < testVec.size(); ++i) {
     int counter = 0;
     while(finalTestVec[i][counter].index != -1)
       std::cout<<finalTestVec[i][counter++].value<<"\t";
