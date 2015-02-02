@@ -75,6 +75,7 @@ class libsvm {
   };
   svm_parameter* getParameter() {return param;};
   bool prepare();
+  void print_prepared_vectors();
   bool addTrainSeq(std::vector<double>*, label_t);
   bool addTestSeq(std::vector<double>*, label_t);
   bool train();

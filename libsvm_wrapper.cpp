@@ -1,5 +1,3 @@
-#include <math.h>
-
 #include "libsvm_wrapper.h"
 
 bool libsvm::prepare() {      
@@ -34,6 +32,20 @@ bool libsvm::prepare() {
   return generateParam();
 }
 
+void libsvm::print_prepared_vectors() {
+  for (int i = 0; i < problem->l; ++i) {
+    int counter = 0;
+    while(problem->x[i][counter].index != -1)
+      std::cout<<problem->x[i][counter++].value<<"\t";
+    std::cout<<std::endl<<std::endl;
+  }
+  for (int i = 0; i < testVec.size(); ++i) {
+    int counter = 0;
+    while(finalTestVec[i][counter].index != -1)
+      std::cout<<finalTestVec[i][counter++].value<<"\t";
+    std::cout<<std::endl<<std::endl;
+  }
+}
 bool libsvm::addTrainSeq(std::vector<double> *vec, label_t lab) {
   if (prepared)
     return false;
@@ -118,8 +130,8 @@ void libsvm::print_param() {
     std::endl<<"param:cache\t"<<param->cache_size<<
     std::endl<<"param:C\t"<<param->C<<
     std::endl<<"param:eps\t"<<param->eps<<
-    std::endl<<"param:weight0\t"<<param->weight_label[0]<<
-    std::endl<<"param:weight1\t"<<param->weight_label[1]<<
+    std::endl<<"param:weight0\t"<<param->weight[0]<<
+    std::endl<<"param:weight1\t"<<param->weight[1]<<
     std::endl<<"param:prob\t"<<param->probability<<
     std::endl<<"param:shrink\t"<<param->shrinking<<std::endl;
 }
